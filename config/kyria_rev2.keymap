@@ -1,0 +1,168 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+	keymap {
+		compatible = "zmk,keymap";
+
+		default_layer {
+// ---------------------------------------------------------------------------------------------------------------------------------
+// |  ESC  |  Q  |  W  |  E   |  R   |  T   |                                          |  Y   |  U    |  I    |  O   |   P   |   \  |
+// |  TAB  |  A  |  S  |  D   |  F   |  G   |                                          |  H   |  J    |  K    |  L   |   ;   |   '  |
+// | SHIFT |  Z  |  X  |  C   |  V   |  B   | L SHIFT | L SHIFT |  | L SHIFT | L SHIFT |  N   |  M    |  ,    |  .   |   /   | CTRL |
+//                     | GUI  | DEL  | RET  |  SPACE  |   ESC   |  |   RET   |  SPACE  | TAB  | BSPC  | R-ALT |
+			bindings = <
+	&kp ESC   &kp Q &kp W &kp E &kp R &kp T                                                &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSLH
+	&kp TAB   &kp A &kp S &kp D &kp F &kp G                                                &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
+	&kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp LSHFT &kp LSHFT        &kp LSHFT &kp LSHFT &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RCTRL
+	                 &kp LGUI &kp DEL &kp RET &kp SPACE &kp ESC        &kp RET  &kp SPACE  &kp TAB &kp BSPC &kp RALT
+			>;
+
+			sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+		};
+	};
+};
+
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+
+#define QWERTY  0
+#define NUM     1
+#define SYM     2
+#define FN      3
+#define BT      4
+
+/ {
+  chosen {
+    zmk,matrix_transform = &default_transform;
+    //zmk,matrix_transform = &five_column_transform;
+  };
+};
+
+/ {
+        keymap {
+                compatible = "zmk,keymap";
+
+                default_layer {
+                        label = "QWERTY";
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
+// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
+// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | SHFT |
+//                    | GUI | ENT | NUM |   | SYM | SPC  | ALT |
+//                                  | BT | | FN | <nyan only
+
+                        bindings = <
+   &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
+   &mt LCTRL ESC &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &none  &none  &none  &none &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                  &kp LGUI &mt LALT RET &mo NUM  
+                   &mo BT &none  &none &mo FN
+                  &mo SYM  &kp SPACE    &kp RALT
+                        >;
+                };
+                lower_layer {
+                        label = "NUMBER";
+// -----------------------------------------------------------------------------------------
+// |      |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | DEL  |
+// |      | LFT | DWN |  UP | RGT |     |   | LFT | DWN |  UP | RGT |     |      |
+// | SHFT |     |     |     |     |     |   | HOME| PGD | PGU | END |     | PRTS |
+//                    | GUI | BT  | NUM |   | SYM | SPC | ALT |
+//                                  | BT | | FN | <nyan only
+
+
+                        bindings = <
+   &trans     &kp N1       &kp N2       &kp N3     &kp N4       &kp N5      &kp N6   &kp N7    &kp N8    &kp N9    &kp N0 &kp DEL
+   &trans     &kp LEFT     &kp DOWN     &kp UP     &kp RIGHT    &trans      &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans &trans
+   &kp LSHFT  &trans       &trans       &trans     &trans       &trans  &none  &none  &none  &none    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans &kp PSCRN
+                      &trans &mo BT &trans 
+                       &trans &none  &none &trans
+                      &trans &trans &trans
+                        >;
+                };
+
+                raise_layer {
+                        label = "SYMBOL";
+// -----------------------------------------------------------------------------------------
+// | GRVE |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | DEL  |
+// | TILD |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
+// | PIPE | BSLH|     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+//                    | GUI | ENT | NUM |   | SYM | FN  | ALT |
+//                                  | BT | | FN | <nyan only
+
+                        bindings = <
+   &kp GRAVE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp DEL
+   &kp TILDE &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &kp GRAVE
+   &kp PIPE  &kp BSLH &trans &trans   &trans   &trans    &none  &none  &none  &none  &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &kp TILDE
+                      &trans &trans &trans 
+                       &trans &none  &none &trans
+                      &trans &mo FN &trans
+                        >;
+                };
+
+                fn_layer {
+                        label = "FN";
+// -----------------------------------------------------------------------------------------
+// |   | F1  | F2  | F3  | F4  | F5  |   | F6  | F7  | F8  | F9  | F10 |    |
+// |   | F11 | F12 |     |     |     |   |     |     |     |     |     |    |
+// |   |     |     |     |     |     |   |     |     |     |     |     |    |
+//                 | GUI | ENT | NUM |   | SYM | FN  | ALT |
+//                                  | BT | | FN | <nyan only
+
+                        bindings = <
+   &trans     &kp F1     &kp F2     &kp F3     &kp F4   &kp F5     &kp F6     &kp F7       &kp F8       &kp F9     &kp F10  &trans
+   &trans     &kp F11    &kp F12    &trans     &trans   &trans     &kp C_PREV &kp C_PAUSE  &kp C_PLAY   &kp C_NEXT &trans   &trans
+   &trans     &trans     &trans     &trans     &trans   &trans   &none  &none  &none  &none  &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &trans     &trans   &trans
+                      &trans &trans &trans 
+                       &trans &none  &none &trans
+                      &trans &trans &trans
+                        >;
+                };
+                
+                bt_layer {
+                        label = "BLUEY";
+// -----------------------------------------------------------------------------------------
+// |BT CLR| BT1 | BT2 | BT3 | BT4 | BT5 |   |     |     |     |     |     |BT CLR|
+// |      |     |     |     |     |     |   |     |     |     |     |     |      |
+// |BT CLR|     |     |     |     |     |   |     |     |     |     |     |      |
+//                                  | BT | | FN | <nyan only
+
+                        bindings = <
+   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &none  &none  &none  &none  &none  &bt BT_CLR
+   &none      &none        &none        &none        &none        &none          &none  &none  &none  &none  &none  &none 
+   &none      &none        &none        &none        &none        &none     &none  &none  &none  &none     &none  &none  &none  &none  &none  &none 
+                      &trans &trans &trans 
+                       &trans &none  &none &trans
+                      &trans &trans &trans
+                        >;
+                };
+
+
+                empty_layer {
+                        label = "NFI";
+// -----------------------------------------------------------------------------------------
+// |   |     |     |     |     |     |   |     |     |     |     |     |    |
+// |   |     |     |     |     |     |   |     |     |     |     |     |    |
+// |   |     |     |     |     |     |   |     |     |     |     |     |    |
+//                 | GUI | ENT | NUM |   | SYM | FN  | ALT |
+//                                  | BT | | FN | <nyan only
+
+                        bindings = <
+   &trans     &trans     &trans     &trans     &trans   &trans     &trans     &trans     &trans     &trans   &trans   &trans
+   &trans     &trans     &trans     &trans     &trans   &trans     &trans     &trans     &trans     &trans   &trans   &trans
+   &trans     &trans     &trans     &trans     &trans   &trans   &none  &none  &none  &none  &trans     &trans     &trans     &trans   &trans   &trans 
+                      &trans &trans &trans 
+                       &trans &none  &none &trans
+                      &trans &trans &trans
+                        >;
+                };
+        };
+};
